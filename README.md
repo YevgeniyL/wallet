@@ -9,6 +9,10 @@
 • REST endpoints with JSON
 
 
+
+Run MySql: $ docker-compose up
+
+
 ### Endpoints:
 
 > create account
