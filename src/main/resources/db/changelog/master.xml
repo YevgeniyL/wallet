@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd
+      http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.5.xsd">
+
+  <changeSet id="202212131248" author="EvgeniiL">
+    <createTable tableName="account">
+      <column name="id" type="int" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="email" type="varchar(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="password" type="varchar(100)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="created_at" type="timestamp">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="202212131536" author="EvgeniiL">
+    <addUniqueConstraint tableName="account" columnNames="email"/>
+  </changeSet>
+
+  <changeSet id="202212131541" author="EvgeniiL">
+    <createTable tableName="wallet">
+      <column name="id" type="int" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="account_id" type="int">
+        <constraints nullable="false"/>
+      </column>
+      <column name="balance" type="decimal" defaultValue="0"/>
+      <column name="created_at" type="timestamp">
+        <constraints nullable="false"/>
+      </column>
+      <column name="updated_at" type="timestamp">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="202212131616" author="EvgeniiL">
+    <addUniqueConstraint tableName="wallet" columnNames="account_id"/>
+    <sql>ALTER TABLE wallet ADD CONSTRAINT check_wallet_zero_balance CHECK (balance>=0);</sql>
+  </changeSet>
+
+  <changeSet id="202212131640" author="EvgeniiL">
+    <addForeignKeyConstraint baseTableName="wallet" baseColumnNames="account_id"
+                             constraintName="wallet_account_id_fk"
+                             referencedTableName="account"
+                             referencedColumnNames="id"/>
+  </changeSet>
+</databaseChangeLog>
