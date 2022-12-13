@@ -25,7 +25,9 @@ public class AccountService {
   }
 
   public Integer create(NewAccount newAccount) {
-    accountRepository.findBy(newAccount.email().trim().toLowerCase())
+    var email = newAccount.email().trim().toLowerCase();
+
+    accountRepository.findBy(email)
                      .ifPresent(account -> {
                        throw new AccountEmailExistException();
                      });
@@ -33,7 +35,7 @@ public class AccountService {
     return transactionTemplate.execute(status -> {
       var account = new Account();
       account.createdAt = now();
-      account.email = newAccount.email().trim().toLowerCase();
+      account.email = email;
       account.password = newAccount.password();
       Integer accountId = accountRepository.save(account).id;
 

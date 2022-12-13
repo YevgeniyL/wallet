@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
-import static java.time.LocalDateTime.now;
 
 @Service
 public class WalletService {
